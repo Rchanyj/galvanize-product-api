@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Products API
+servers:
+  - url: http://%host%/
+paths:
+  /product/new:
+    post:
+      description: Creates a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProductData'
+      responses:
+        204:
+          description: Post created
+        400:
+          description: Wrong input
+        500:
+          description: Internal server error
+
+  /product/{id}:
+    get:
+      description: Fetches and returns a specific product by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+            format: int32
+        - name: currency
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Currency'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Error returning product
+        500:
+          description: Internal server error
+
+  /product/most-viewed:
+    get:
+      description: Returns a list of the most viewed products
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: number
+            format: int32
+          description: Number of products to return; if unspecified, will return 5
+        - name: currency
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Currency'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductArray'
+        404:
+          description: Error returning products
+        500:
+          description: Internal server error
+
+  /product/{id}/delete:
+    put:
+      description: Removes a product from all API responses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+            format: int32
+      responses:
+        204:
+          description: Product removed
+        400:
+          description: Wrong input
+        500:
+          description: Internal server error
+
+components:
+  schemas:
+    NewProductData:
+      type: object
+      required:
+        - name
+        - price
+      properties:
+        name:
+          type: string
+        price:
+          type: integer
+          format: int32
+        description:
+          type: string
+
+    Product:
+      allOf:
+        - $ref: '#/components/schemas/NewProductData'
+      required:
+        - view_count
+      properties:
+        view_count:
+          type: integer
+          format: int32
+
+    ProductArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+
+    Currency:
+      type: string
+      enum:
+        - USD
+        - CAD
+        - EUR
+        - GBP
