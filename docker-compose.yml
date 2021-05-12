@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    restart: always
+    healthcheck:
+      test: curl --silent --fail localhost:8000/status
+      interval: 2s
+      timeout: 2s
+      retries: 10
+    ports:
+      - '8080:8080'
