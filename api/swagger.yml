@@ -116,10 +116,13 @@ components:
         - $ref: '#/components/schemas/NewProductData'
       required:
         - view_count
+        - active
       properties:
         view_count:
           type: integer
           format: int32
+        active:
+          type: boolean
 
     ProductArray:
       type: array
