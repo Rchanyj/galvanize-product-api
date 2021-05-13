@@ -13,6 +13,18 @@ import logging
 bp = Blueprint('products')
 
 
+@bp.post('/product/new')
+def create_product(request: Request) -> HTTPResponse:
+    product_storage = request.app.services.product_storage
+    product_data = request.json
+    try:
+        product_storage.create_product(product_data)
+    except Exception:
+        raise Exception('Failed to create product')
+
+    return HTTPResponse(status=204)
+
+
 @bp.get('/product/<id:int>')
 def get_product(request: Request, id: int) -> HTTPResponse:
     product_storage = request.app.services.product_storage

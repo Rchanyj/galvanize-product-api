@@ -16,11 +16,13 @@ paths:
               $ref: '#/components/schemas/NewProductData'
       responses:
         204:
-          description: Post created
+          description: Product created
         400:
           description: Wrong input
+          $ref: '#/components/schemas/Error'
         500:
           description: Internal server error
+          $ref: '#/components/schemas/Error'
 
   /product/{id}:
     get:
@@ -46,8 +48,10 @@ paths:
                 $ref: '#/components/schemas/Product'
         404:
           description: Error returning product
+          $ref: '#/components/schemas/Error'
         500:
           description: Internal server error
+          $ref: '#/components/schemas/Error'
 
   /product/most-viewed:
     get:
@@ -74,8 +78,10 @@ paths:
                 $ref: '#/components/schemas/ProductArray'
         404:
           description: Error returning products
+          $ref: '#/components/schemas/Error'
         500:
           description: Internal server error
+          $ref: '#/components/schemas/Error'
 
   /product/{id}/delete:
     put:
@@ -92,8 +98,10 @@ paths:
           description: Product removed
         400:
           description: Wrong input
+          $ref: '#/components/schemas/Error'
         500:
           description: Internal server error
+          $ref: '#/components/schemas/Error'
 
 components:
   schemas:
@@ -136,3 +144,8 @@ components:
         - CAD
         - EUR
         - GBP
+
+    Error:
+      type: object
+      properties:
+        message: {type: string}

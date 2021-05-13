@@ -20,7 +20,7 @@ def attach(app, _):
 
 @bp.listener('after_server_stop')
 def detach(app, _):
-    logging.info('Closing post storage...')
+    logging.info('Closing product storage...')
 
     product_storage = app.services.product_storage
     if product_storage:
@@ -36,6 +36,9 @@ sql_increment_views = '''update products
                         set view_count = %s
                         where id = %s'''
 
+sql_create_product = '''insert into products
+                        values (nextval('product_id_seq'), %s, %s, %s, 0, true)'''
+
 
 class ProductStorage:
     def __init__(self):
@@ -50,6 +53,16 @@ class ProductStorage:
         except Exception:
             raise Exception('Failed to connect to db')
 
+    def create_product(self, product_data):
+        logging.info('Creating product...')
+        try:
+            self.cursor.execute(sql_create_product,
+                                (product_data.get('name'),
+                                 product_data.get('price'),
+                                 product_data.get('description')))
+        except Exception:
+            raise Exception('Failed to create product')
+
     def get_product(self, id):
         logging.info('Fetching product...')
         try:
@@ -58,7 +71,7 @@ class ProductStorage:
             self.increment_views(id, product[4]+1)
             return product
         except Exception:
-            logging.exception('get_product ---> error fetching post')
+            logging.exception('Failed to get product')
             return {}
 
     def increment_views(self, id, views):
