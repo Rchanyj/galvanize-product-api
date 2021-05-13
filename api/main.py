@@ -18,6 +18,9 @@ def main():
     app.blueprint(products.bp)
     app.blueprint(status.bp)
 
+    # Services
+    app.blueprint(services.product_storage.bp)
+
     # Set root logging level
     logging.getLogger().setLevel(logging.INFO)
 

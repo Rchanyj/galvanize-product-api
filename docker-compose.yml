@@ -3,6 +3,7 @@ version: '3.7'
 services:
   postgres:
     image: postgres:13-alpine
+    restart: always
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
     healthcheck:
@@ -26,3 +27,11 @@ services:
       retries: 10
     ports:
       - '8080:8080'
+
+  test:
+    build: .
+    depends_on:
+      - app
+    command: pytest -vv ./tests
+    volumes:
+      - '.:/workspace'

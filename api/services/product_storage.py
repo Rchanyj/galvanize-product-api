@@ -1,5 +1,6 @@
 from sanic import Blueprint
 import psycopg2
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 import logging
 import config
@@ -28,14 +29,15 @@ def detach(app, _):
 
 # Queries:
 sql_fetch_product = '''select *
-                        from posts
-                        where id = ?'''
+                        from products
+                        where id = %s'''
 
 
 class ProductStorage:
     def __init__(self):
         self.conn = None
 
+    @retry(reraise=True, stop=stop_after_attempt(2), wait=wait_fixed(1))
     def init(self):
         try:
             self.conn = psycopg2.connect(config.PG_CONNECTION_STRING)
@@ -46,7 +48,7 @@ class ProductStorage:
         logging.info('Fetching product...')
         try:
             cursor = self.conn.cursor()
-            cursor.execute(sql_fetch_product, (id))
+            cursor.execute(sql_fetch_product, (id,))
             product = cursor.fetchone()
             return product
         except Exception:
