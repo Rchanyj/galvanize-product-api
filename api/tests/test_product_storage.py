@@ -9,3 +9,5 @@ def test_get_product():
     product_data = product_storage.get_product(id)
 
     assert (len(product_data), product_data[0]) == (6, 2)
+
+def test
