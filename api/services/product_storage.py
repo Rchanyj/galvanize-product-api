@@ -39,6 +39,12 @@ sql_increment_views = '''update products
 sql_create_product = '''insert into products
                         values (nextval('product_id_seq'), %s, %s, %s, 0, true)'''
 
+sql_fetch_most_viewed = '''select *
+                        from products
+                        where view_count > 0
+                        order by view_count desc
+                        limit %s'''
+
 
 class ProductStorage:
     def __init__(self):
@@ -72,6 +78,16 @@ class ProductStorage:
             return product
         except Exception:
             logging.exception('Failed to get product')
+            return {}
+
+    def get_most_viewed(self, limit=5):
+        logging.info('Fetching most viewed...')
+        try:
+            self.cursor.execute(sql_fetch_most_viewed, (limit,))
+            products = self.cursor.fetchall()
+            return products
+        except Exception:
+            logging.exception('Failed to get products')
             return {}
 
     def increment_views(self, id, views):

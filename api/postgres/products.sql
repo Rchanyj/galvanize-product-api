@@ -20,9 +20,11 @@ create table products (
 
 insert into products(id, name, price, description, view_count, active)
 values
-(nextval('product_id_seq'), 'AwesomeProduct 1', 100, 'Awesome product description', 2, true),
-(nextval('product_id_seq'), 'AwesomeProduct 2', 50, 'Awesome product description', 0, true);
+(nextval('product_id_seq'), 'AwesomeProduct 1', 100, 'Awesome product description', 0, true),
+(nextval('product_id_seq'), 'AwesomeProduct 2', 50, 'Awesome product description', 3, true),
+(nextval('product_id_seq'), 'AwesomeProduct 3', 20, NULL, 4, true),
+(nextval('product_id_seq'), 'AwesomeProduct 4', 20, 'Awesome product description', 2, true),
+(nextval('product_id_seq'), 'AwesomeProduct 5', 25, 'Awesome product description', 1, true),
+(nextval('product_id_seq'), 'AwesomeProduct 6', 15, 'Awesome product description', 0, true);
 
-insert into products(id, name, price, view_count, active)
-values
-(nextval('product_id_seq'), 'AwesomeProduct 3', 20, 5, true);
+

@@ -11,9 +11,9 @@ def test_create_product():
     }
 
     product_storage.create_product(product_data)
-    product_data = product_storage.get_product(4)
+    product_data = product_storage.get_product(7)
 
-    assert product_data[0] == 4
+    assert product_data[0] == 7
     assert product_data[1] == 'Test1'
     assert product_data[2] == 20
     assert product_data[3] is None
@@ -29,3 +29,17 @@ def test_get_product():
     product_data = product_storage.get_product(id)
 
     assert (len(product_data), product_data[0]) == (6, 2)
+
+
+def test_get_most_viewed():
+    product_storage = ProductStorage()
+    product_storage.init()
+
+    products_data = product_storage.get_most_viewed()
+
+    assert len(products_data) == 4
+    assert products_data[0][0] == 3
+    assert products_data[1][0] == 2
+    assert products_data[2][0] == 4
+    assert products_data[3][0] == 5
+
