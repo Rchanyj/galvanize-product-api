@@ -68,3 +68,7 @@ class ProductStorage:
         except Exception:
             raise Exception('Failed to increment views')
 
+    def close(self):
+        if self.conn:
+            self.conn.close()
+
