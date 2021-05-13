@@ -92,6 +92,16 @@ def get_most_viewed(request: Request) -> HTTPResponse:
     return json(products)
 
 
+@bp.put('/product/<id:int>/delete')
+def delete_product(request: Request, id: int) -> HTTPResponse:
+    product_storage = request.app.services.product_storage
+    try:
+        product_storage.deactivate_product(id)
+        return HTTPResponse(status=204)
+    except Exception:
+        raise Exception('Error deactivating product')
+
+
 def get_query_params(url):
     parsed = urlparse.urlparse(url)
     parsed_query = parse_qs(parsed.query)

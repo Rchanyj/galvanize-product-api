@@ -55,3 +55,10 @@ def test_get_most_viewed():
 
     assert resp.status_code == 200
     assert actual == expected
+
+
+def test_delete_product():
+    id = 6
+    resp = requests.put(f'{config.ENDPOINT}/product/{id}/delete')
+
+    assert resp.status_code == 204

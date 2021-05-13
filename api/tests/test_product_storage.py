@@ -43,3 +43,12 @@ def test_get_most_viewed():
     assert products_data[2][0] == 4
     assert products_data[3][0] == 5
 
+
+def test_deactivate_product():
+    product_storage = ProductStorage()
+    product_storage.init()
+
+    product_storage.deactivate_product(1)
+    product_data = product_storage.get_product(1)
+
+    assert (product_data[0], product_data[5]) == (1, False)

@@ -13,7 +13,7 @@ Tests:
 - For simplicity, tests will be conducted using the same docker-compose postgres database (in reality production db would always be up in a separate container, while test db would always be re-initiated upon running tests)
 - To ensure a clean test run, please initialize postgres container to ensure a test db reset before running e.g. `docker-compose up --build test`
 - No current handling of other db values that may update upon calling certain functions
-- Due to above, if postgres container is not reset (e.g. `docker-compose down; docker-compose up...`), tests may fail
+- Due to above, if postgres container is not reset (e.g. `docker-compose down; docker-compose up...`), tests may fail if run repeatedly
 - For simplicity and considering time, automated tests would cover only fundamental functionality of each endpoint (so far)
 
 DB:

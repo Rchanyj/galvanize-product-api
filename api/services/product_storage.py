@@ -45,6 +45,10 @@ sql_fetch_most_viewed = '''select *
                         order by view_count desc
                         limit %s'''
 
+sql_deactivate_product = '''update products
+                        set active = false
+                        where id = %s'''
+
 
 class ProductStorage:
     def __init__(self):
@@ -89,6 +93,13 @@ class ProductStorage:
         except Exception:
             logging.exception('Failed to get products')
             return {}
+
+    def deactivate_product(self, id):
+        logging.info(f'Deactivating product {id}...')
+        try:
+            self.cursor.execute(sql_deactivate_product, (id,))
+        except Exception:
+            raise Exception('Failed to deactivate product')
 
     def increment_views(self, id, views):
         logging.info(f'Incrementing views for product {id}...')
