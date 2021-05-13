@@ -62,3 +62,13 @@ def test_delete_product():
     resp = requests.put(f'{config.ENDPOINT}/product/{id}/delete')
 
     assert resp.status_code == 204
+
+
+def test_get_deleted_product():
+    # Rerun delete for product 6 in case test is run individually:
+    id = 6
+    resp = requests.put(f'{config.ENDPOINT}/product/{id}/delete')
+    assert resp.status_code == 204
+
+    resp = requests.get(f'{config.ENDPOINT}/product/{id}')
+    assert resp.json() == {'Cannot find product': 'Product does not exist or is no longer active.'}

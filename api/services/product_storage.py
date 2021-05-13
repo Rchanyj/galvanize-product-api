@@ -30,7 +30,8 @@ def detach(app, _):
 # Queries:
 sql_fetch_product = '''select *
                         from products
-                        where id = %s'''
+                        where id = %s
+                        and active = true'''
 
 sql_increment_views = '''update products
                         set view_count = %s
@@ -42,6 +43,7 @@ sql_create_product = '''insert into products
 sql_fetch_most_viewed = '''select *
                         from products
                         where view_count > 0
+                        and active = true
                         order by view_count desc
                         limit %s'''
 

@@ -51,4 +51,4 @@ def test_deactivate_product():
     product_storage.deactivate_product(1)
     product_data = product_storage.get_product(1)
 
-    assert (product_data[0], product_data[5]) == (1, False)
+    assert product_data == {}

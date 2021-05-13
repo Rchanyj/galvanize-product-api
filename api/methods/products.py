@@ -33,6 +33,9 @@ def get_product(request: Request, id: int) -> HTTPResponse:
     except Exception:
         raise Exception('Error returning product')
 
+    if len(product_data) == 0:
+        return json({'Cannot find product': 'Product does not exist or is no longer active.'})
+
     price = product_data[2]
 
     query_params = get_query_params(request.url)
