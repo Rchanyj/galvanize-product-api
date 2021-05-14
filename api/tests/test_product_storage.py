@@ -1,7 +1,7 @@
 from services.product_storage import ProductStorage
 
 
-def test_create_product():
+def test_create_product_creates_product():
     product_storage = ProductStorage()
     product_storage.init()
 
@@ -21,7 +21,7 @@ def test_create_product():
     assert product_data[5] is True
 
 
-def test_get_product():
+def test_get_product_returns_product():
     product_storage = ProductStorage()
     product_storage.init()
 
@@ -31,7 +31,7 @@ def test_get_product():
     assert (len(product_data), product_data[0]) == (6, 2)
 
 
-def test_get_most_viewed():
+def test_get_most_viewed_returns_more_than_one_view_desc():
     product_storage = ProductStorage()
     product_storage.init()
 
@@ -44,7 +44,7 @@ def test_get_most_viewed():
     assert products_data[3][0] == 5
 
 
-def test_deactivate_product():
+def test_deactivate_product_inactivates_product():
     product_storage = ProductStorage()
     product_storage.init()
 

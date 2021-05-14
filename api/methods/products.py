@@ -5,12 +5,14 @@ import requests
 
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
-from decimal import Decimal
+from expiringdict import ExpiringDict
 
 import config
 import logging
 
 bp = Blueprint('products')
+
+cache = ExpiringDict(max_len=100, max_age_seconds=60)
 
 
 @bp.post('/product/new')
@@ -42,7 +44,10 @@ def get_product(request: Request, id: int) -> HTTPResponse:
     currency_param = query_params.get('currency', None)
     if currency_param:
         try:
-            curr_converter = get_currency_converter(currency_param)
+            curr_converter = cache.get(currency_param[0], None)
+            if not curr_converter:
+                curr_converter = get_currency_converter(currency_param)
+                cache[currency_param[0]] = curr_converter
             price = round(product_data[2]*curr_converter, 2)
         except Exception:
             logging.info('Error in converting currency; returning default USD')

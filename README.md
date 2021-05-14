@@ -7,7 +7,10 @@ Initialization:
 - Please initialize postgres db container first: `docker-compose up --build postgres`
 - App can be built via `docker-compose up --build app`
 - ^ These are done separately to make sure postgres has time to fully build (for simplicity, waiting logic for this was not implemented in the code)
+
+Infrastructure and functionality:
 - Due to minimal traffic and simplicity of this demo API, there are currently no async implementations
+- A simple in-memory cache is implemented for results from external currency API to simulate caching for potential bottleneck
 
 Tests:
 - For simplicity, tests will be conducted using the same docker-compose postgres database (in reality production db would always be up in a separate container, while test db would always be re-initiated upon running tests)

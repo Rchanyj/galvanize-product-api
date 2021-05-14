@@ -2,7 +2,7 @@ import requests
 import tests.test_config as config
 
 
-def test_create_product():
+def test_create_product_returns_204():
     request_url = f'{config.ENDPOINT}/product/new'
     content = {
         'name': 'TestCreate1',
@@ -13,7 +13,7 @@ def test_create_product():
     assert response.status_code == 204
 
 
-def test_get_product():
+def test_get_product_returns_expected_product():
     id = 2
     resp = requests.get(f'{config.ENDPOINT}/product/{id}')
     actual = resp.json()
@@ -30,7 +30,7 @@ def test_get_product():
     assert actual == expected
 
 
-def test_get_most_viewed():
+def test_get_most_viewed_limit_2_returns_2_most_viewed_products_desc():
     url = config.ENDPOINT + '/product/most-viewed'
     payload = {
         'limit': 2
@@ -57,14 +57,14 @@ def test_get_most_viewed():
     assert actual == expected
 
 
-def test_delete_product():
+def test_delete_product_returns_204():
     id = 6
     resp = requests.put(f'{config.ENDPOINT}/product/{id}/delete')
 
     assert resp.status_code == 204
 
 
-def test_get_deleted_product():
+def test_get_deleted_product_returns_empty_with_proper_message():
     # Rerun delete for product 6 in case test is run individually:
     id = 6
     resp = requests.put(f'{config.ENDPOINT}/product/{id}/delete')
