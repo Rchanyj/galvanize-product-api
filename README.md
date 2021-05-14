@@ -1,3 +1,12 @@
+**Quick start**:
+
+- App can be accessed by first running `docker-compose up --build postgres` and then `docker-compose up --build app`
+- Tests can be run by first running postgres container as described above and then running `docker-compose up --build test`
+- Endpoints and request specs can be viewed at http://localhost:8080/swagger.
+- For easier viewing, the swagger can also be copied to https://editor.swagger.io/
+   - **Note: I attempted to use swagger UI's Petstore demo for easy testing of API endpoints, but it had problems loading any HTTP schemes
+- This repo can also (for the time being) be viewed at https://github.com/Rchanyj/galvanize-product-api for more details regarding commits, etc.
+
 **Following simplifications made for sake of assignment:**
 
 Initialization:
@@ -33,13 +42,10 @@ Assumptions and explanations:
 - ^ Assumes that 'view event' for products only occurs if user specifically looks for a particular product
 
 -------------------
-To do:
-- Find service that can supply a simple GUI to better view requests?
-- Link Github repo so that commit history is available
-
--------------------
 
 Wishlist:
 
 - Better error handling that covers more cases and is more graceful
 - More user-friendly, more specific, detailed error messages
+- Monitoring and metrics (e.g. request durations, errors)
+- Auth and security features
