@@ -78,7 +78,10 @@ def get_most_viewed(request: Request) -> HTTPResponse:
 
     if currency_param:
         try:
-            curr_converter = get_currency_converter(currency_param)
+            curr_converter = cache.get(currency_param[0], None)
+            if not curr_converter:
+                curr_converter = get_currency_converter(currency_param)
+                cache[currency_param[0]] = curr_converter
         except Exception:
             logging.info('Error in converting currency; returning default USD')
 
